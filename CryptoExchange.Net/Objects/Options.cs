@@ -122,7 +122,7 @@ namespace CryptoExchange.Net.Objects
     /// <summary>
     /// Rest client options
     /// </summary>
-    public class BaseRestClientOptions : BaseClientOptions
+    public class BaseRestClientOptions : BaseClientOptions,IDisposable
     {
         /// <summary>
         /// The time the server has to respond to a request before timing out
@@ -158,6 +158,14 @@ namespace CryptoExchange.Net.Objects
         public override string ToString()
         {
             return $"{base.ToString()}, RequestTimeout: {RequestTimeout:c}, HttpClient: {(HttpClient == null ? "-" : "set")}";
+        }
+
+        public void Dispose()
+        {
+            if(HttpClient != null)
+            {
+                HttpClient.Dispose();
+            }
         }
     }
 

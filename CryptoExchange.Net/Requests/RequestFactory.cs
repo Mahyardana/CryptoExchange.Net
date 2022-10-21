@@ -9,7 +9,7 @@ namespace CryptoExchange.Net.Requests
     /// <summary>
     /// Request factory
     /// </summary>
-    public class RequestFactory : IRequestFactory
+    public class RequestFactory : IRequestFactory,IDisposable
     {
         private HttpClient? httpClient;        
 
@@ -42,6 +42,14 @@ namespace CryptoExchange.Net.Requests
                 throw new InvalidOperationException("Cant create request before configuring http client");
 
             return new Request(new HttpRequestMessage(method, uri), httpClient, requestId);
+        }
+
+        public void Dispose()
+        {
+            if(httpClient!=null)
+            {
+                httpClient.Dispose();
+            }
         }
     }
 }
